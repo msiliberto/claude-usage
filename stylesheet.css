@@ -1,0 +1,119 @@
+/* Pannello */
+
+/* Il tema dà a .system-status-icon `padding: 0 6px; margin: 0 4px`: simmetrici,
+ * e quindi invisibili, sui pulsanti di sola icona. Qui l'icona ha un'etichetta
+ * accanto, così quei 10px si sommano solo a sinistra ai 12px del pulsante e
+ * sbilanciano l'indicatore. `!important` perché l'esito non dipenda dall'ordine
+ * di caricamento dei fogli né da un tema di terze parti: la classe è nostra e
+ * non la usa nessun altro. */
+#panel .panel-button .claude-usage-icon {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Il tema dà a `.panel-button` `-natural-hpadding: 12px`. Azzerato sopra il
+ * padding dell'icona, restano 12px di aria per lato: il doppio degli indicatori
+ * vicini, e sul nostro pulsante — più largo, perché ha anche l'etichetta — si
+ * notano. 6px riallineano il riquadro dell'hover a quello dei vicini. */
+#panel .panel-button.claude-usage-button {
+  -natural-hpadding: 6px;
+  -minimum-hpadding: 4px;
+}
+
+.claude-usage-label {
+  margin-left: 6px; /* unico spazio fra icona ed etichetta */
+  font-feature-settings: "tnum"; /* cifre a larghezza fissa: niente sfarfallio */
+}
+
+.claude-usage-warn {
+  color: #f9c440;
+}
+.claude-usage-critical {
+  color: #f66151;
+}
+.claude-usage-dimmed {
+  opacity: 0.45;
+}
+
+/* Stato dei turni di Claude Code sull'✳. Verde e arancione stanno lontani
+ * dal giallo e dal rosso delle soglie di consumo, che colorano l'etichetta:
+ * «ha finito» e «aspetta te» non si confondono con «sei al 50%». Il colore
+ * non è l'unico segnale — mentre lavora l'✳ ruota, quando aspetta te pulsa —
+ * e ha una variante più scura per i pannelli chiari, riconosciuti a runtime. */
+#panel .claude-usage-icon.claude-turn-done {
+  color: #57e389;
+}
+#panel .claude-usage-icon.claude-turn-waiting {
+  color: #f0885d;
+}
+#panel .claude-usage-light-panel .claude-usage-icon.claude-turn-done {
+  color: #1c7c47;
+}
+#panel .claude-usage-light-panel .claude-usage-icon.claude-turn-waiting {
+  color: #b4532a;
+}
+
+/* Menu */
+
+/* Il menu può avere un tono diverso dal pannello: qui tinte intermedie, che
+ * restano leggibili su fondo chiaro e scuro. */
+.claude-session-dot {
+  margin-right: 6px;
+  opacity: 0.7;
+}
+.claude-session-dot.claude-turn-done {
+  color: #2ec27e;
+  opacity: 1;
+}
+.claude-session-dot.claude-turn-waiting {
+  color: #e66a36;
+  opacity: 1;
+}
+.claude-session-detail {
+  padding-left: 16px; /* allineato al nome, dopo il pallino */
+}
+.claude-menu-section {
+  padding: 4px 0;
+}
+
+.claude-menu-header {
+  font-weight: bold;
+  padding-bottom: 2px;
+}
+
+.claude-menu-title {
+  font-weight: bold;
+}
+
+.claude-menu-detail {
+  font-size: 0.85em;
+  opacity: 0.7;
+  padding-top: 2px;
+}
+
+.claude-menu-footer {
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+/* Barra di avanzamento: il track ha larghezza fissa, il fill la imposta inline */
+.claude-bar-track {
+  width: 220px;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+  margin-top: 3px;
+}
+
+.claude-bar-fill {
+  height: 6px;
+  border-radius: 3px;
+  background-color: #62a0ea;
+}
+
+.claude-bar-fill-warn {
+  background-color: #f9c440;
+}
+.claude-bar-fill-critical {
+  background-color: #f66151;
+}

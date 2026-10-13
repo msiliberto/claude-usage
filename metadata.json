@@ -1,0 +1,10 @@
+{
+  "uuid": "claude-usage@msiliberto.github.io",
+  "name": "Claude Usage",
+  "description": "Unofficial indicator for Claude usage limits (5-hour session and weekly) in the top bar, with reset times in your time zone, plus the live status of your Claude Code sessions (working, finished, waiting for you) with optional notifications. The interface is available in Italian and English (selectable in the preferences).\n\nRequires Claude Code to be installed and logged in.\n\nPrivacy and data access:\n- Reads the Claude Code OAuth token from ~/.claude/.credentials.json (read-only, never modified) and sends it only to api.anthropic.com to fetch usage data, the same endpoint behind /usage in Claude Code. No other network requests are made.\n- Reads the tail of the Claude Code transcripts in ~/.claude/projects locally to detect session status; their content never leaves the computer.\n- Lists running processes (/proc) to find which Claude Code sessions are still open.\n\nNot affiliated with or endorsed by Anthropic. Claude is a trademark of Anthropic, PBC.",
+  "shell-version": ["48", "49", "50"],
+  "url": "https://github.com/msiliberto/utilizzo-claudio",
+  "settings-schema": "org.gnome.shell.extensions.claude-usage",
+  "version": 11,
+  "version-name": "1.0"
+}

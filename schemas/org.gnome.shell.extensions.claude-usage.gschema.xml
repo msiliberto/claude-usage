@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <enum id="org.gnome.shell.extensions.claude-usage.panel-box">
+    <value nick="left" value="0"/>
+    <value nick="center" value="1"/>
+    <value nick="right" value="2"/>
+  </enum>
+
+  <schema id="org.gnome.shell.extensions.claude-usage"
+          path="/org/gnome/shell/extensions/claude-usage/">
+
+    <key name="language" type="s">
+      <choices>
+        <choice value="it"/>
+        <choice value="en"/>
+      </choices>
+      <default>'it'</default>
+      <summary>Lingua dell'interfaccia</summary>
+      <description>Lingua di pannello, menu, notifiche e preferenze: "it" (italiano) o "en" (inglese).</description>
+    </key>
+
+    <key name="refresh-interval" type="i">
+      <default>300</default>
+      <range min="180" max="3600"/>
+      <summary>Intervallo di aggiornamento</summary>
+      <description>Secondi fra due interrogazioni dell'API di utilizzo. Intervalli brevi portano al rate limit (HTTP 429): il polling si ferma quando la sessione è inattiva, e fuori dall'intervallo il dato si chiede solo con «Aggiorna ora».</description>
+    </key>
+
+    <key name="show-percent" type="b">
+      <default>true</default>
+      <summary>Mostra la percentuale nel pannello</summary>
+    </key>
+
+    <key name="show-countdown" type="b">
+      <default>true</default>
+      <summary>Mostra il tempo mancante al reset nel pannello</summary>
+    </key>
+
+    <key name="poll-only-when-active" type="b">
+      <default>true</default>
+      <summary>Aggiorna solo mentre Claude Code lavora</summary>
+      <description>Il consumo cambia solo quando Claude Code sta lavorando: l'estensione se ne accorge dai trascritti di sessione in ~/.claude/projects e a sessione ferma non interroga l'API. Da disattivare se usi Claude dal browser, dove non c'è nulla da rilevare in locale.</description>
+    </key>
+
+    <key name="panel-position" enum="org.gnome.shell.extensions.claude-usage.panel-box">
+      <default>'right'</default>
+      <summary>Zona della barra superiore</summary>
+    </key>
+
+    <key name="panel-index" type="i">
+      <default>0</default>
+      <range min="0" max="20"/>
+      <summary>Posizione dentro la zona</summary>
+      <description>0 = all'estremità iniziale della zona scelta.</description>
+    </key>
+
+    <key name="warn-threshold" type="i">
+      <default>50</default>
+      <range min="1" max="100"/>
+      <summary>Soglia di attenzione (giallo)</summary>
+    </key>
+
+    <key name="critical-threshold" type="i">
+      <default>80</default>
+      <range min="1" max="100"/>
+      <summary>Soglia critica (rosso)</summary>
+    </key>
+
+    <key name="timezone" type="s">
+      <default>'Europe/Rome'</default>
+      <summary>Fuso orario per gli orari di reset</summary>
+      <description>Identificatore IANA, es. Europe/Rome. Vuoto = fuso di sistema.</description>
+    </key>
+
+    <key name="notify-done" type="b">
+      <default>false</default>
+      <summary>Avvisa quando Claude ha finito</summary>
+      <description>Notifica di sistema alla fine di ogni turno di Claude Code, oltre all'✳ verde nel pannello.</description>
+    </key>
+
+    <key name="notify-waiting" type="b">
+      <default>false</default>
+      <summary>Avvisa quando Claude aspetta te</summary>
+      <description>Subito per una domanda o un piano da approvare; dopo waiting-delay secondi se è fermo su un altro tool, che può essere un permesso da concedere oppure un comando lungo.</description>
+    </key>
+
+    <key name="waiting-delay" type="i">
+      <default>180</default>
+      <range min="30" max="1800"/>
+      <summary>Secondi di attesa prima di «aspetta te»</summary>
+      <description>Quanto deve restare fermo il trascritto su un tool aperto prima che l'✳ diventi arancione (e, se attiva, parta la notifica).</description>
+    </key>
+
+    <!-- Stato del gate delle richieste. Non sono preferenze e non compaiono
+         nella finestra delle impostazioni: servono a far sopravvivere il
+         contenimento del traffico alla ricreazione dell'indicatore, che la
+         shell fa più volte di fila dopo il login. -->
+
+    <key name="last-request" type="x">
+      <default>0</default>
+      <summary>Istante dell'ultima richiesta all'API</summary>
+      <description>Millisecondi dall'epoch.</description>
+    </key>
+
+    <key name="retry-until" type="x">
+      <default>0</default>
+      <summary>Istante prima del quale non interrogare l'API</summary>
+      <description>Millisecondi dall'epoch: il backoff non si azzera quando l'indicatore viene ricreato.</description>
+    </key>
+
+    <key name="backoff-failures" type="i">
+      <default>0</default>
+      <range min="0" max="100"/>
+      <summary>Tentativi falliti consecutivi</summary>
+    </key>
+
+    <key name="cached-usage" type="s">
+      <default>''</default>
+      <summary>Ultimo dato di utilizzo letto</summary>
+      <description>JSON: permette di mostrare subito l'ultimo valore noto senza interrogare l'API a ogni ricreazione dell'indicatore.</description>
+    </key>
+
+    <key name="cached-at" type="x">
+      <default>0</default>
+      <summary>Istante del dato in cache</summary>
+    </key>
+
+    <key name="credentials-path" type="s">
+      <default>''</default>
+      <summary>Percorso di .credentials.json</summary>
+      <description>Vuoto = ~/.claude/.credentials.json</description>
+    </key>
+
+  </schema>
+</schemalist>
